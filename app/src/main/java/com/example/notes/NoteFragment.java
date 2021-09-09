@@ -43,5 +43,4 @@ public class NoteFragment extends Fragment {
         noteContentText.setText(note.getContent());
         return view;
     }
-
 }

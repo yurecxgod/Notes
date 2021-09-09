@@ -3,6 +3,7 @@ package com.example.notes;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,12 +54,12 @@ public class ListOfNotesFragment extends Fragment {
                 SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault());
                 secondTextView.setText(formatter.format(note.getCreationDate().getTime()));
                 linearView.addView(firstTextView);
+                firstTextView.setTextColor(Color.BLUE);
+                secondTextView.setTextColor(Color.BLUE);
                 linearView.addView(secondTextView);
                 firstTextView.setPadding(0, 22, 0, 0);
-                firstTextView.setOnClickListener(v -> {
-                    currentNote = note;
-                    showNote(currentNote);
-                });
+                firstTextView.setOnClickListener(v -> initCurrentNote(note));
+                secondTextView.setOnClickListener(v -> initCurrentNote(note));
             }
         }
     }
@@ -67,6 +68,11 @@ public class ListOfNotesFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putParcelable(NoteFragment.CURRENT_NOTE, currentNote);
         super.onSaveInstanceState(outState);
+    }
+
+    private void initCurrentNote(Note note) {
+        currentNote = note;
+        showNote(note);
     }
 
     @Override
@@ -99,8 +105,12 @@ public class ListOfNotesFragment extends Fragment {
     }
 
     private void showPortNote(Note currentNote) {
-        Intent intent = new Intent(getActivity(), NoteActivity.class);
-        intent.putExtra(NoteFragment.CURRENT_NOTE, currentNote);
-        startActivity(intent);
+        NoteFragment fragment = NoteFragment.newInstance(currentNote);
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack("list_fragment");
+        fragmentTransaction.replace(R.id.list_of_notes_fragment_container, fragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
     }
 }
