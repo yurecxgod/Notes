@@ -15,72 +15,56 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.notes.observe.Publisher;
 import com.example.notes.ui.ListOfNotesFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
+import java.util.Objects;
 
-    private DrawerLayout drawer;
+public class MainActivity extends AppCompatActivity {
+    private com.example.notes.Navigation navigation;
+    private Publisher publisher = new Publisher();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.list_of_notes_fragment_container, new ListOfNotesFragment());
-        fragmentTransaction.commit();
-        Toolbar toolbar = initToolbar();
-        initDrawer(toolbar);
+        navigation = new com.example.notes.Navigation(getSupportFragmentManager());
+        initToolbar();
+        getNavigation().addFragment(ListOfNotesFragment.newInstance(), false);
     }
 
-    private void initDrawer(Toolbar toolbar) {
-        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar,
-                R.string.drawer_open,
-                R.string.drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (navigateMenu(id)) {
-                drawer.closeDrawer(GravityCompat.START);
-                return true;
-            }
-            return false;
-        });
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    private boolean navigateMenu(int id) {
-        switch (id) {
-            case R.id.nav_settings:
-                Toast.makeText(this, getResources().getString(R.string.settings), Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.nav_about:
-                Toast.makeText(this, getResources().getString(R.string.about), Toast.LENGTH_LONG).show();
-                return true;
-        }
-        return false;
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    public com.example.notes.Navigation getNavigation() {
+        return navigation;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         MenuItem search = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) search.getActionView();
-        MenuItem sort = menu.findItem(R.id.menu_sort);
-        MenuItem addPhoto = menu.findItem(R.id.menu_add_photo);
-        MenuItem send = menu.findItem(R.id.menu_send);
-        send.setOnMenuItemClickListener(this);
-        addPhoto.setOnMenuItemClickListener(this);
-        sort.setOnMenuItemClickListener(this);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        SearchView searchText = (SearchView) search.getActionView();
+        searchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Snackbar.make(findViewById(R.id.drawer_layout), query, Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(com.example.notes.MainActivity.this, query, Toast.LENGTH_SHORT).show();
                 return true;
             }
 
@@ -89,22 +73,21 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
                 return true;
             }
         });
+        MenuItem sort = menu.findItem(R.id.menu_sort);
+        sort.setOnMenuItemClickListener(item -> {
+            Toast.makeText(com.example.notes.MainActivity.this, R.string.menu_sort, Toast.LENGTH_SHORT).show();
+            return true;
+        });
+        MenuItem send = menu.findItem(R.id.menu_send);
+        send.setOnMenuItemClickListener(item -> {
+            Toast.makeText(com.example.notes.MainActivity.this, R.string.menu_send, Toast.LENGTH_SHORT).show();
+            return true;
+        });
+        MenuItem addPhoto = menu.findItem(R.id.menu_add_photo);
+        addPhoto.setOnMenuItemClickListener(item -> {
+            Toast.makeText(com.example.notes.MainActivity.this, R.string.menu_add_photo, Toast.LENGTH_SHORT).show();
+            return true;
+        });
         return true;
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        Snackbar.make(findViewById(R.id.drawer_layout), item.getTitle().toString(), Snackbar.LENGTH_SHORT).show();
-        return false;
-    }
-
-    private boolean checkLandScapeOrientation() {
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-    }
-
-    private Toolbar initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        return toolbar;
     }
 }
