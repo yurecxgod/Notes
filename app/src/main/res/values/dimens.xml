@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_start_end">30dp</dimen>
+    <dimen name="margin_top">30dp</dimen>
+    <dimen name="padding_of_rv_element">10dp</dimen>
+    <dimen name="textsize_of_rv_element">25sp</dimen>
+    <dimen name="textsize_of_date_of_rv_element">15sp</dimen>
+    <dimen name="small_padding_of_rv_element">5dp</dimen>
+    <dimen name="card_corner_radius">15dp</dimen>
+    <dimen name="card_elevation">3dp</dimen>
+</resources>
