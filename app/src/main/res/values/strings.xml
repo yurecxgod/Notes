@@ -39,4 +39,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="item">item of RV</string>
     <string name="date_of_item">date of item</string>
+    <string name="menu_add_note">Add note</string>
+    <string name="menu_delete_note">Delete note</string>
 </resources>

@@ -2,6 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_add_note"
+        android:icon="@drawable/ic_action_four"
+        android:orderInCategory="2"
+        android:title="@string/menu_add_note"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_action_name"
         android:orderInCategory="1"
