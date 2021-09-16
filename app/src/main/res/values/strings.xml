@@ -18,4 +18,25 @@
     <string name="icon_android">Icon android</string>
     <string name="drawer_open">Open navigation</string>
     <string name="drawer_close">Close navigation</string>
+    <string name="fourth_note_title">Fourth note</string>
+    <string name="fourth_note_content">Fourth note content</string>
+    <string name="fifth_note_title">Fifth note title</string>
+    <string name="fifth_note_content">Fifth note content</string>
+    <string name="sixth_note_title">Sixth note title</string>
+    <string name="sixth_note_content">Sixth note content</string>
+    <string name="seventh_note_title">Seventh note</string>
+    <string name="seventh_note_content">Seventh note content</string>
+    <string name="eighth_note_title">Eighth note title</string>
+    <string name="eighth_note_content">Eighth note content</string>
+    <string name="ninth_note_title">Ninth note title</string>
+    <string name="ninth_note_content">Ninth note content</string>
+    <string name="tenth_note_title">Tenth note title</string>
+    <string name="tenth_note_content">Tenth note content</string>
+    <string name="eleventh_note_title">Eleventh note title</string>
+    <string name="eleventh_note_content">Eleventh note content</string>
+    <string name="twelfth_note_title">Twelfth note title</string>
+    <string name="twelfth_note_content">Twelfth note content</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="item">item of RV</string>
+    <string name="date_of_item">date of item</string>
 </resources>
