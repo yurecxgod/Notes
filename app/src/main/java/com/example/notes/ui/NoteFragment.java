@@ -3,9 +3,13 @@ package com.example.notes.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,7 +28,6 @@ import java.util.Random;
 
 public class NoteFragment extends Fragment {
     public static final String CURRENT_NOTE = "currentNote";
-    public static final String CURRENT_DATA = "currentData";
     private Note note;
     private Publisher publisher;
 
@@ -77,7 +80,6 @@ public class NoteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_note, container, false);
         initView(view);
         if (note != null) {
-            color = note.getColor();
             dateOfCreation = note.getCreationDate();
             populateView(view);
         }
@@ -111,7 +113,13 @@ public class NoteFragment extends Fragment {
         if (isNewNote) {
             isNewNote = false;
         }
-        return new Note(title, content, dateOfCreation, color);
+        if (note != null) {
+            Note answer = new Note(title, content, dateOfCreation);
+            answer.setId(note.getId());
+            return answer;
+        } else {
+            return new Note(title, content, dateOfCreation);
+        }
     }
 
     private void initView(View view) {
@@ -128,7 +136,6 @@ public class NoteFragment extends Fragment {
             dateOfCreationText.setText(note.getCreationDate());
             titleText.setText(note.getTitle());
             contentText.setText(note.getContent());
-            view.setBackgroundColor(note.getColor());
         }
     }
 
@@ -136,5 +143,26 @@ public class NoteFragment extends Fragment {
         int[] colors = getResources().getIntArray(R.array.colors);
         Random random = new Random();
         return colors[random.nextInt(colors.length)];
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        MenuItem addNote = menu.findItem(R.id.menu_add_note);
+        MenuItem search = menu.findItem(R.id.menu_search);
+        MenuItem sort = menu.findItem(R.id.menu_sort);
+        addNote.setVisible(false);
+        search.setVisible(false);
+        sort.setVisible(false);
+        MenuItem send = menu.findItem(R.id.menu_send);
+        send.setOnMenuItemClickListener(item -> {
+            Toast.makeText(getActivity(), R.string.menu_send, Toast.LENGTH_SHORT).show();
+            return true;
+        });
+        MenuItem addPhoto = menu.findItem(R.id.menu_add_photo);
+        addPhoto.setOnMenuItemClickListener(item -> {
+            Toast.makeText(getActivity(), R.string.menu_add_photo, Toast.LENGTH_SHORT).show();
+            return true;
+        });
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
