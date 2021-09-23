@@ -41,4 +41,10 @@
     <string name="date_of_item">date of item</string>
     <string name="menu_add_note">Add note</string>
     <string name="menu_delete_note">Delete note</string>
+    <string name="edit_title_hint">Title notes</string>
+    <string name="edit_description_hint">Description note</string>
+    <string name="delete_note_dialog_button_no">Don\'t delete</string>
+    <string name="confirm_delete_button">Delete</string>
+    <string name="skip">Skip</string>
+    <string name="sure">Are you sure?</string>
 </resources>
